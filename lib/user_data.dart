@@ -3,8 +3,8 @@ import "package:flutter/material.dart";
 
 ///Represents the custom Exception used to distinguish the error on API call
 class DioException implements Exception {
-  DioException(this.message);
   final String message;
+  DioException(this.message);
 }
 
 /// Represents a user's basic data with a [name] and [email].
@@ -13,6 +13,12 @@ class DioException implements Exception {
 /// using [UserData.fromJson]. You can also fetch a list of users
 /// from a remote API using [UserData.fetchUsers].
 class UserData {
+  /// The user's name.
+  final String name;
+
+  /// The user's email address.
+  final String email;
+
   /// Creates a [UserData] instance with a required [name] and [email].
   const UserData({required this.name, required this.email});
 
@@ -35,12 +41,6 @@ class UserData {
     //the condition above fails
     throw UserDataException("The name or email are missing or not strings");
   }
-
-  /// The user's name.
-  final String name;
-
-  /// The user's email address.
-  final String email;
 
   /// Fetches a list of users from a remote API.
   ///
@@ -75,14 +75,12 @@ class UserData {
           result.add(UserData.fromJson(e));
         } on UserDataException catch (e) {
           debugPrint(e.message);
-          // TODO(xM1haix): do something about it if cares
           continue;
         }
       }
       return result;
     } catch (e) {
       debugPrint("Error: $e");
-      // TODO(xM1haix): manage the error based on the prefences and error type
       throw UserDataException("Something went wrong: $e");
     }
   }
@@ -90,6 +88,6 @@ class UserData {
 
 ///Represents the custom Exception used to distinguish the error on API call
 class UserDataException implements Exception {
-  UserDataException(this.message);
   final String message;
+  UserDataException(this.message);
 }
